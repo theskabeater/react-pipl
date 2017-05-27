@@ -2,9 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require("webpack");
 
 module.exports = {
-  entry: {
-    app: './app/index.js',
-  },
+  entry: ['babel-polyfill', './app/index.js'],
   output: {
     path: './dist/app.js',
     publicPath: '/',
@@ -14,9 +12,10 @@ module.exports = {
       {
         test: /\.css$/,
         loaders: [
-          'style?sourceMap',
-          'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+          'style-loader?sourceMap',
+          'css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
         ],
+        exclude: /node_modules/,
       },
       {
         test: /\.js$/,

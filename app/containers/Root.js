@@ -4,17 +4,31 @@ import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-r
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createBrowserHistory } from 'history';
+import { createLogger } from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
 
 import App from './App';
+import piplReducer from '../reducers/pipl';
+import piplSaga from '../sagas/pipl';
 
 const history = createBrowserHistory();
+const sagaMiddleware = createSagaMiddleware();
+
+const middleware = [
+  createLogger(),
+  routerMiddleware(history),
+  sagaMiddleware,
+];
 
 const store = createStore(
   combineReducers({
+    pipl: piplReducer,
     router: routerReducer,
   }),
-  applyMiddleware(routerMiddleware(history)),
+  applyMiddleware(...middleware),
 );
+
+sagaMiddleware.run(piplSaga);
 
 export default function Root() {
   return (
