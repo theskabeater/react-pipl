@@ -11,7 +11,7 @@ export function piplRequest(email) {
 
 export function piplResponse(person) {
   return {
-    type: piplResponse,
+    type: PIPL_RESPONSE,
     payload: person,
   };
 }
